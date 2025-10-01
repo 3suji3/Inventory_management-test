@@ -1,53 +1,119 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
-import { Badge } from '../ui/badge';
-import { Package, Plus, Edit, Trash2, Save, Factory, Barcode, Clock, Thermometer } from 'lucide-react';
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
+import { Badge } from "../ui/badge";
+import {
+  Package,
+  Plus,
+  Edit,
+  Trash2,
+  Save,
+  Factory,
+  Barcode,
+  Clock,
+  Thermometer,
+} from "lucide-react";
 
 export function BasicInfoPage() {
   const [items, setItems] = useState([
-    { id: 'RAW001', name: '닭고기 (가슴살)', category: '원재료', plant: '1공장', storage: '냉장', shelfLife: 7, unit: 'kg' },
-    { id: 'RAW002', name: '당근', category: '원재료', plant: '1공장', storage: '상온', shelfLife: 14, unit: 'kg' },
-    { id: 'WIP001', name: '전처리 믹스', category: 'WIP', plant: '2공장', storage: '냉장', shelfLife: 3, unit: 'kg' },
-    { id: 'FG001', name: '애니콩 펫베이커리 A', category: '완제품', plant: '2공장', storage: '냉동', shelfLife: 30, unit: 'ea' }
+    {
+      id: "RAW001",
+      name: "닭고기 (가슴살)",
+      category: "원재료",
+      plant: "1공장",
+      storage: "냉장",
+      shelfLife: 7,
+      unit: "kg",
+    },
+    {
+      id: "RAW002",
+      name: "당근",
+      category: "원재료",
+      plant: "1공장",
+      storage: "상온",
+      shelfLife: 14,
+      unit: "kg",
+    },
+    {
+      id: "WIP001",
+      name: "전처리 믹스",
+      category: "WIP",
+      plant: "2공장",
+      storage: "냉장",
+      shelfLife: 3,
+      unit: "kg",
+    },
+    {
+      id: "FG001",
+      name: "애니콩 펫베이커리 A",
+      category: "완제품",
+      plant: "2공장",
+      storage: "냉동",
+      shelfLife: 30,
+      unit: "ea",
+    },
   ]);
 
   const [newItem, setNewItem] = useState({
-    id: '',
-    name: '',
-    category: '',
-    plant: '',
-    storage: '',
-    shelfLife: '',
-    unit: ''
+    id: "",
+    name: "",
+    category: "",
+    plant: "",
+    storage: "",
+    shelfLife: "",
+    unit: "",
   });
 
-  const storageOptions = {
-    '상온': { icon: '🌡️', color: 'bg-yellow-100 text-yellow-800' },
-    '냉장': { icon: '❄️', color: 'bg-blue-100 text-blue-800' },
-    '냉동': { icon: '🧊', color: 'bg-purple-100 text-purple-800' }
+  const storageOptions: { [key: string]: { icon: string; color: string } } = {
+    상온: { icon: "🌡️", color: "bg-yellow-100 text-yellow-800" },
+    냉장: { icon: "❄️", color: "bg-blue-100 text-blue-800" },
+    냉동: { icon: "🧊", color: "bg-purple-100 text-purple-800" },
   };
 
-  const categoryColors = {
-    '원재료': 'bg-[#A3C478] text-white',
-    'WIP': 'bg-[#F9B679] text-white',
-    '완제품': 'bg-[#724323] text-white'
+  const categoryColors: { [key: string]: string } = {
+    원재료: "bg-[#A3C478] text-white",
+    WIP: "bg-[#F9B679] text-white",
+    완제품: "bg-[#724323] text-white",
   };
 
   const addItem = () => {
     if (newItem.id && newItem.name) {
-      setItems([...items, { ...newItem, shelfLife: parseInt(newItem.shelfLife) }]);
-      setNewItem({ id: '', name: '', category: '', plant: '', storage: '', shelfLife: '', unit: '' });
+      setItems([
+        ...items,
+        { ...newItem, shelfLife: parseInt(newItem.shelfLife) },
+      ]);
+      setNewItem({
+        id: "",
+        name: "",
+        category: "",
+        plant: "",
+        storage: "",
+        shelfLife: "",
+        unit: "",
+      });
     }
   };
 
   const removeItem = (id: string) => {
-    setItems(items.filter(item => item.id !== id));
+    setItems(items.filter((item) => item.id !== id));
   };
 
   return (
@@ -58,7 +124,9 @@ export function BasicInfoPage() {
             <Package className="w-6 h-6" />
             기초정보 설정
           </h1>
-          <p className="text-[#333333] mt-1">품목 등록, 공장 정보, 바코드 템플릿 관리</p>
+          <p className="text-[#333333] mt-1">
+            품목 등록, 공장 정보, 바코드 템플릿 관리
+          </p>
         </div>
       </div>
 
@@ -86,7 +154,9 @@ export function BasicInfoPage() {
                   <Input
                     id="itemId"
                     value={newItem.id}
-                    onChange={(e) => setNewItem({...newItem, id: e.target.value})}
+                    onChange={(e) =>
+                      setNewItem({ ...newItem, id: e.target.value })
+                    }
                     placeholder="RAW001"
                   />
                 </div>
@@ -95,13 +165,20 @@ export function BasicInfoPage() {
                   <Input
                     id="itemName"
                     value={newItem.name}
-                    onChange={(e) => setNewItem({...newItem, name: e.target.value})}
+                    onChange={(e) =>
+                      setNewItem({ ...newItem, name: e.target.value })
+                    }
                     placeholder="품목명 입력"
                   />
                 </div>
                 <div>
                   <Label htmlFor="category">카테고리</Label>
-                  <Select value={newItem.category} onValueChange={(value) => setNewItem({...newItem, category: value})}>
+                  <Select
+                    value={newItem.category}
+                    onValueChange={(value: string) =>
+                      setNewItem({ ...newItem, category: value })
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="카테고리 선택" />
                     </SelectTrigger>
@@ -114,7 +191,12 @@ export function BasicInfoPage() {
                 </div>
                 <div>
                   <Label htmlFor="plant">담당 공장</Label>
-                  <Select value={newItem.plant} onValueChange={(value) => setNewItem({...newItem, plant: value})}>
+                  <Select
+                    value={newItem.plant}
+                    onValueChange={(value: string) =>
+                      setNewItem({ ...newItem, plant: value })
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="공장 선택" />
                     </SelectTrigger>
@@ -126,7 +208,12 @@ export function BasicInfoPage() {
                 </div>
                 <div>
                   <Label htmlFor="storage">보관조건</Label>
-                  <Select value={newItem.storage} onValueChange={(value) => setNewItem({...newItem, storage: value})}>
+                  <Select
+                    value={newItem.storage}
+                    onValueChange={(value: string) =>
+                      setNewItem({ ...newItem, storage: value })
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="보관조건" />
                     </SelectTrigger>
@@ -143,13 +230,20 @@ export function BasicInfoPage() {
                     id="shelfLife"
                     type="number"
                     value={newItem.shelfLife}
-                    onChange={(e) => setNewItem({...newItem, shelfLife: e.target.value})}
+                    onChange={(e) =>
+                      setNewItem({ ...newItem, shelfLife: e.target.value })
+                    }
                     placeholder="7"
                   />
                 </div>
                 <div>
                   <Label htmlFor="unit">단위</Label>
-                  <Select value={newItem.unit} onValueChange={(value) => setNewItem({...newItem, unit: value})}>
+                  <Select
+                    value={newItem.unit}
+                    onValueChange={(value: string) =>
+                      setNewItem({ ...newItem, unit: value })
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="단위" />
                     </SelectTrigger>
@@ -162,7 +256,10 @@ export function BasicInfoPage() {
                   </Select>
                 </div>
                 <div className="flex items-end">
-                  <Button onClick={addItem} className="w-full bg-[#724323] hover:bg-[#5a3419] text-white">
+                  <Button
+                    onClick={addItem}
+                    className="w-full bg-[#724323] hover:bg-[#5a3419] text-white"
+                  >
                     <Plus className="w-4 h-4 mr-2" />
                     등록
                   </Button>
@@ -223,12 +320,16 @@ export function BasicInfoPage() {
                       <TableCell>{item.unit}</TableCell>
                       <TableCell>
                         <div className="flex items-center gap-1">
-                          <Button size="sm" variant="ghost" className="p-1 h-auto">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="p-1 h-auto"
+                          >
                             <Edit className="w-4 h-4" />
                           </Button>
-                          <Button 
-                            size="sm" 
-                            variant="ghost" 
+                          <Button
+                            size="sm"
+                            variant="ghost"
                             className="p-1 h-auto text-red-600 hover:text-red-700"
                             onClick={() => removeItem(item.id)}
                           >
@@ -265,7 +366,9 @@ export function BasicInfoPage() {
                 <div>
                   <Label>담당 공정</Label>
                   <div className="flex flex-wrap gap-2 mt-2">
-                    <Badge className="bg-[#A3C478] text-white">원재료 입고</Badge>
+                    <Badge className="bg-[#A3C478] text-white">
+                      원재료 입고
+                    </Badge>
                     <Badge className="bg-[#A3C478] text-white">절단/세척</Badge>
                     <Badge className="bg-[#A3C478] text-white">전처리</Badge>
                   </div>
@@ -300,7 +403,9 @@ export function BasicInfoPage() {
                   <Label>담당 공정</Label>
                   <div className="flex flex-wrap gap-2 mt-2">
                     <Badge className="bg-[#F9B679] text-white">혼합/배합</Badge>
-                    <Badge className="bg-[#F9B679] text-white">조리/베이킹</Badge>
+                    <Badge className="bg-[#F9B679] text-white">
+                      조리/베이킹
+                    </Badge>
                     <Badge className="bg-[#F9B679] text-white">포장</Badge>
                     <Badge className="bg-[#F9B679] text-white">냉동보관</Badge>
                   </div>
@@ -346,8 +451,6 @@ export function BasicInfoPage() {
                     <TableRow>
                       <TableHead>원재료 코드</TableHead>
                       <TableHead>원재료명</TableHead>
-                      <TableHead>필요량 (g)</TableHead>
-                      <TableHead>단위당 소요량</TableHead>
                       <TableHead>작업</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -356,11 +459,11 @@ export function BasicInfoPage() {
                       <TableCell>RAW001</TableCell>
                       <TableCell>닭고기 (가슴살)</TableCell>
                       <TableCell>
-                        <Input type="number" defaultValue="150" className="w-20" />
-                      </TableCell>
-                      <TableCell>150g/ea</TableCell>
-                      <TableCell>
-                        <Button size="sm" variant="ghost" className="text-red-600">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="text-red-600"
+                        >
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </TableCell>
@@ -369,11 +472,11 @@ export function BasicInfoPage() {
                       <TableCell>RAW002</TableCell>
                       <TableCell>당근</TableCell>
                       <TableCell>
-                        <Input type="number" defaultValue="50" className="w-20" />
-                      </TableCell>
-                      <TableCell>50g/ea</TableCell>
-                      <TableCell>
-                        <Button size="sm" variant="ghost" className="text-red-600">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="text-red-600"
+                        >
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </TableCell>

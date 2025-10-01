@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -35,8 +30,31 @@ import {
   AlertTriangle,
 } from "lucide-react";
 
+interface TransferItem {
+  code: string;
+  name: string;
+  quantity: number;
+  unit: string;
+  lot: string;
+}
+
+interface Transfer {
+  id: string;
+  fromPlant: string;
+  toPlant: string;
+  status: "preparing" | "in_transit" | "delivered";
+  items: TransferItem[];
+  createdDate?: string;
+  preparedBy?: string;
+  transportMode?: string;
+  departureTime?: string;
+  estimatedArrival?: string;
+  deliveredTime?: string;
+  receivedBy?: string;
+}
+
 export function InterPlantTransferPage() {
-  const [transfers, setTransfers] = useState([
+  const [transfers, setTransfers] = useState<Transfer[]>([
     {
       id: "TRF001",
       fromPlant: "1공장",
@@ -105,9 +123,7 @@ export function InterPlantTransferPage() {
   ]);
 
   const [newTransfer, setNewTransfer] = useState({
-    items: [
-      { code: "", name: "", quantity: 0, unit: "kg", lot: "" },
-    ],
+    items: [{ code: "", name: "", quantity: 0, unit: "kg", lot: "" }],
     transportMode: "internal_truck",
   });
 
@@ -125,7 +141,9 @@ export function InterPlantTransferPage() {
     cancelled: "취소됨",
   };
 
-  const transportModes = {
+  const transportModes: {
+    [key: string]: { label: string; icon: string; color: string };
+  } = {
     internal_truck: {
       label: "내부트럭",
       icon: "🚛",
@@ -146,19 +164,19 @@ export function InterPlantTransferPage() {
           ? {
               ...transfer,
               status: "in_transit",
-              departureTime: new Date().toLocaleTimeString(
-                "ko-KR",
-                { hour: "2-digit", minute: "2-digit" },
-              ),
+              departureTime: new Date().toLocaleTimeString("ko-KR", {
+                hour: "2-digit",
+                minute: "2-digit",
+              }),
               estimatedArrival: new Date(
-                Date.now() + 30 * 60 * 1000,
+                Date.now() + 30 * 60 * 1000
               ).toLocaleTimeString("ko-KR", {
                 hour: "2-digit",
                 minute: "2-digit",
               }),
             }
-          : transfer,
-      ),
+          : transfer
+      )
     );
   };
 
@@ -169,14 +187,14 @@ export function InterPlantTransferPage() {
           ? {
               ...transfer,
               status: "delivered",
-              deliveredTime: new Date().toLocaleTimeString(
-                "ko-KR",
-                { hour: "2-digit", minute: "2-digit" },
-              ),
+              deliveredTime: new Date().toLocaleTimeString("ko-KR", {
+                hour: "2-digit",
+                minute: "2-digit",
+              }),
               receivedBy: "2공장 담당자",
             }
-          : transfer,
-      ),
+          : transfer
+      )
     );
   };
 
@@ -187,9 +205,7 @@ export function InterPlantTransferPage() {
       fromPlant: "1공장",
       toPlant: "2공장",
       status: "preparing" as const,
-      items: newTransfer.items.filter(
-        (item) => item.code && item.name,
-      ),
+      items: newTransfer.items.filter((item) => item.code && item.name),
       createdDate: new Date().toISOString().split("T")[0],
       preparedBy: "현재사용자",
       transportMode: newTransfer.transportMode,
@@ -226,15 +242,11 @@ export function InterPlantTransferPage() {
     }));
   };
 
-  const updateTransferItem = (
-    index: number,
-    field: string,
-    value: any,
-  ) => {
+  const updateTransferItem = (index: number, field: string, value: any) => {
     setNewTransfer((prev) => ({
       ...prev,
       items: prev.items.map((item, i) =>
-        i === index ? { ...item, [field]: value } : item,
+        i === index ? { ...item, [field]: value } : item
       ),
     }));
   };
@@ -254,12 +266,7 @@ export function InterPlantTransferPage() {
         <div className="flex items-center gap-2">
           <Badge className="bg-[#A3C478] text-white px-4 py-2">
             오늘 이송:{" "}
-            {
-              transfers.filter(
-                (t) => t.createdDate === "2025-09-11",
-              ).length
-            }
-            건
+            {transfers.filter((t) => t.createdDate === "2025-09-11").length}건
           </Badge>
         </div>
       </div>
@@ -270,15 +277,9 @@ export function InterPlantTransferPage() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-[#333333] mb-1">
-                  출고준비
-                </p>
+                <p className="text-sm text-[#333333] mb-1">출고준비</p>
                 <p className="text-2xl font-bold text-[#724323]">
-                  {
-                    transfers.filter(
-                      (t) => t.status === "preparing",
-                    ).length
-                  }
+                  {transfers.filter((t) => t.status === "preparing").length}
                 </p>
               </div>
               <div className="p-3 bg-blue-100 rounded-lg">
@@ -292,15 +293,9 @@ export function InterPlantTransferPage() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-[#333333] mb-1">
-                  이송중
-                </p>
+                <p className="text-sm text-[#333333] mb-1">이송중</p>
                 <p className="text-2xl font-bold text-[#724323]">
-                  {
-                    transfers.filter(
-                      (t) => t.status === "in_transit",
-                    ).length
-                  }
+                  {transfers.filter((t) => t.status === "in_transit").length}
                 </p>
               </div>
               <div className="p-3 bg-yellow-100 rounded-lg">
@@ -314,15 +309,9 @@ export function InterPlantTransferPage() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-[#333333] mb-1">
-                  입고완료
-                </p>
+                <p className="text-sm text-[#333333] mb-1">입고완료</p>
                 <p className="text-2xl font-bold text-[#724323]">
-                  {
-                    transfers.filter(
-                      (t) => t.status === "delivered",
-                    ).length
-                  }
+                  {transfers.filter((t) => t.status === "delivered").length}
                 </p>
               </div>
               <div className="p-3 bg-green-100 rounded-lg">
@@ -336,12 +325,8 @@ export function InterPlantTransferPage() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-[#333333] mb-1">
-                  평균 이송시간
-                </p>
-                <p className="text-2xl font-bold text-[#724323]">
-                  32분
-                </p>
+                <p className="text-sm text-[#333333] mb-1">평균 이송시간</p>
+                <p className="text-2xl font-bold text-[#724323]">32분</p>
               </div>
               <div className="p-3 bg-[#F5E9D5] rounded-lg">
                 <Clock className="w-5 h-5 text-[#724323]" />
@@ -374,7 +359,7 @@ export function InterPlantTransferPage() {
                 <Label>운송 방식</Label>
                 <Select
                   value={newTransfer.transportMode}
-                  onValueChange={(value) =>
+                  onValueChange={(value: string) =>
                     setNewTransfer((prev) => ({
                       ...prev,
                       transportMode: value,
@@ -385,13 +370,11 @@ export function InterPlantTransferPage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {Object.entries(transportModes).map(
-                      ([key, mode]) => (
-                        <SelectItem key={key} value={key}>
-                          {mode.icon} {mode.label}
-                        </SelectItem>
-                      ),
-                    )}
+                    {Object.entries(transportModes).map(([key, mode]) => (
+                      <SelectItem key={key} value={key}>
+                        {mode.icon} {mode.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -409,22 +392,14 @@ export function InterPlantTransferPage() {
                       placeholder="품목코드"
                       value={item.code}
                       onChange={(e) =>
-                        updateTransferItem(
-                          index,
-                          "code",
-                          e.target.value,
-                        )
+                        updateTransferItem(index, "code", e.target.value)
                       }
                     />
                     <Input
                       placeholder="품목명"
                       value={item.name}
                       onChange={(e) =>
-                        updateTransferItem(
-                          index,
-                          "name",
-                          e.target.value,
-                        )
+                        updateTransferItem(index, "name", e.target.value)
                       }
                     />
                     <Input
@@ -435,13 +410,13 @@ export function InterPlantTransferPage() {
                         updateTransferItem(
                           index,
                           "quantity",
-                          parseInt(e.target.value) || 0,
+                          parseInt(e.target.value) || 0
                         )
                       }
                     />
                     <Select
                       value={item.unit}
-                      onValueChange={(value) =>
+                      onValueChange={(value: string) =>
                         updateTransferItem(index, "unit", value)
                       }
                     >
@@ -458,11 +433,7 @@ export function InterPlantTransferPage() {
                       placeholder="로트번호"
                       value={item.lot}
                       onChange={(e) =>
-                        updateTransferItem(
-                          index,
-                          "lot",
-                          e.target.value,
-                        )
+                        updateTransferItem(index, "lot", e.target.value)
                       }
                     />
                     <Button
@@ -471,9 +442,7 @@ export function InterPlantTransferPage() {
                       onClick={() => {
                         setNewTransfer((prev) => ({
                           ...prev,
-                          items: prev.items.filter(
-                            (_, i) => i !== index,
-                          ),
+                          items: prev.items.filter((_, i) => i !== index),
                         }));
                       }}
                       className="text-red-600 border-red-300 hover:bg-red-50"
@@ -527,37 +496,37 @@ export function InterPlantTransferPage() {
                       </h3>
                       <div className="flex items-center gap-2 text-sm text-[#333333]">
                         <MapPin className="w-4 h-4" />
-                        {transfer.fromPlant} →{" "}
-                        {transfer.toPlant}
+                        {transfer.fromPlant} → {transfer.toPlant}
                       </div>
                       <p className="text-sm text-[#333333]">
                         등록일: {transfer.createdDate}
                       </p>
                     </div>
-                    <Badge
-                      className={statusColors[transfer.status]}
-                    >
+                    <Badge className={statusColors[transfer.status]}>
                       {statusLabels[transfer.status]}
                     </Badge>
                     <div
-                      className={`px-3 py-1 rounded-lg ${transportModes[transfer.transportMode].color} text-white`}
+                      className={`px-3 py-1 rounded-lg ${
+                        typeof transfer.transportMode === "string" &&
+                        transportModes[transfer.transportMode]
+                          ? transportModes[transfer.transportMode].color
+                          : "bg-gray-200"
+                      } text-white`}
                     >
-                      {
-                        transportModes[transfer.transportMode]
-                          .icon
-                      }{" "}
-                      {
-                        transportModes[transfer.transportMode]
-                          .label
-                      }
+                      {typeof transfer.transportMode === "string" &&
+                      transportModes[transfer.transportMode]
+                        ? transportModes[transfer.transportMode].icon
+                        : ""}
+                      {typeof transfer.transportMode === "string" &&
+                      transportModes[transfer.transportMode]
+                        ? transportModes[transfer.transportMode].label
+                        : transfer.transportMode}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     {transfer.status === "preparing" && (
                       <Button
-                        onClick={() =>
-                          startTransfer(transfer.id)
-                        }
+                        onClick={() => startTransfer(transfer.id)}
                         className="bg-[#F9B679] hover:bg-[#f7a866] text-white"
                       >
                         <Truck className="w-4 h-4 mr-2" />
@@ -566,9 +535,7 @@ export function InterPlantTransferPage() {
                     )}
                     {transfer.status === "in_transit" && (
                       <Button
-                        onClick={() =>
-                          completeTransfer(transfer.id)
-                        }
+                        onClick={() => completeTransfer(transfer.id)}
                         className="bg-[#A3C478] hover:bg-[#8fb865] text-white"
                       >
                         <CheckCircle className="w-4 h-4 mr-2" />
@@ -637,16 +604,10 @@ export function InterPlantTransferPage() {
                           {item.quantity} {item.unit}
                         </TableCell>
                         <TableCell>
-                          <Badge variant="outline">
-                            {item.lot}
-                          </Badge>
+                          <Badge variant="outline">{item.lot}</Badge>
                         </TableCell>
                         <TableCell>
-                          <Badge
-                            className={
-                              statusColors[transfer.status]
-                            }
-                          >
+                          <Badge className={statusColors[transfer.status]}>
                             {statusLabels[transfer.status]}
                           </Badge>
                         </TableCell>

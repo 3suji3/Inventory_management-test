@@ -1,141 +1,217 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
-import { Badge } from '../ui/badge';
-import { Progress } from '../ui/progress';
-import { Factory, Scan, Play, Pause, CheckCircle, Clock, Users, Package, ArrowRight } from 'lucide-react';
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
+import { Badge } from "../ui/badge";
+import { Progress } from "../ui/progress";
+import {
+  Factory,
+  Scan,
+  Play,
+  Pause,
+  CheckCircle,
+  Clock,
+  Users,
+  Package,
+  ArrowRight,
+} from "lucide-react";
 
 export function Plant1ProcessingPage() {
   const [activeProcess, setActiveProcess] = useState<string | null>(null);
   const [scannedItems, setScannedItems] = useState<string[]>([]);
 
+  type WorkOrderStatus = "ready" | "in_progress" | "completed" | "paused";
+
   const [workOrders, setWorkOrders] = useState([
     {
-      id: 'WO001',
-      type: '전처리',
-      product: '전처리 믹스 A',
+      id: "WO001",
+      type: "전처리",
+      product: "전처리 믹스 A",
       quantity: 100,
-      unit: 'kg',
-      status: 'ready',
-      operator: '김전처리',
+      unit: "kg",
+      status: "ready" as WorkOrderStatus,
+      operator: "김전처리",
       startTime: null,
       progress: 0,
       materials: [
-        { code: 'RAW001', name: '닭고기 (가슴살)', required: 50, scanned: 0, unit: 'kg' },
-        { code: 'RAW002', name: '당근', required: 30, scanned: 0, unit: 'kg' },
-        { code: 'RAW003', name: '감자', required: 20, scanned: 0, unit: 'kg' }
-      ]
+        {
+          code: "RAW001",
+          name: "닭고기 (가슴살)",
+          required: 50,
+          scanned: 0,
+          unit: "kg",
+        },
+        { code: "RAW002", name: "당근", required: 30, scanned: 0, unit: "kg" },
+        { code: "RAW003", name: "감자", required: 20, scanned: 0, unit: "kg" },
+      ],
     },
     {
-      id: 'WO002',
-      type: '세척',
-      product: '세척 야채 믹스',
+      id: "WO002",
+      type: "세척",
+      product: "세척 야채 믹스",
       quantity: 200,
-      unit: 'kg',
-      status: 'in_progress',
-      operator: '이세척',
-      startTime: '09:30',
+      unit: "kg",
+      status: "in_progress" as WorkOrderStatus,
+      operator: "이세척",
+      startTime: "09:30",
       progress: 65,
       materials: [
-        { code: 'RAW002', name: '당근', required: 100, scanned: 100, unit: 'kg' },
-        { code: 'RAW004', name: '양배추', required: 100, scanned: 100, unit: 'kg' }
-      ]
+        {
+          code: "RAW002",
+          name: "당근",
+          required: 100,
+          scanned: 100,
+          unit: "kg",
+        },
+        {
+          code: "RAW004",
+          name: "양배추",
+          required: 100,
+          scanned: 100,
+          unit: "kg",
+        },
+      ],
     },
     {
-      id: 'WO003',
-      type: '절단',
-      product: '절단 육류',
+      id: "WO003",
+      type: "절단",
+      product: "절단 육류",
       quantity: 50,
-      unit: 'kg',
-      status: 'completed',
-      operator: '박절단',
-      startTime: '08:00',
+      unit: "kg",
+      status: "completed" as WorkOrderStatus,
+      operator: "박절단",
+      startTime: "08:00",
       progress: 100,
       materials: [
-        { code: 'RAW001', name: '닭고기 (가슴살)', required: 50, scanned: 50, unit: 'kg' }
-      ]
-    }
+        {
+          code: "RAW001",
+          name: "닭고기 (가슴살)",
+          required: 50,
+          scanned: 50,
+          unit: "kg",
+        },
+      ],
+    },
   ]);
 
-  const statusColors = {
-    ready: 'bg-blue-100 text-blue-800',
-    in_progress: 'bg-yellow-100 text-yellow-800',
-    completed: 'bg-green-100 text-green-800',
-    paused: 'bg-gray-100 text-gray-800'
+  const statusColors: Record<WorkOrderStatus, string> = {
+    ready: "bg-blue-100 text-blue-800",
+    in_progress: "bg-yellow-100 text-yellow-800",
+    completed: "bg-green-100 text-green-800",
+    paused: "bg-gray-100 text-gray-800",
   };
 
-  const statusLabels = {
-    ready: '준비',
-    in_progress: '진행중',
-    completed: '완료',
-    paused: '일시정지'
+  const statusLabels: Record<WorkOrderStatus, string> = {
+    ready: "준비",
+    in_progress: "진행중",
+    completed: "완료",
+    paused: "일시정지",
   };
 
   const startProcess = (woId: string) => {
     setActiveProcess(woId);
-    setWorkOrders(prev => 
-      prev.map(wo => 
-        wo.id === woId 
-          ? { ...wo, status: 'in_progress', startTime: new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }) }
+    setWorkOrders((prev) =>
+      prev.map((wo) =>
+        wo.id === woId
+          ? {
+              ...wo,
+              status: "in_progress",
+              startTime: new Date().toLocaleTimeString("ko-KR", {
+                hour: "2-digit",
+                minute: "2-digit",
+              }),
+            }
           : wo
       )
     );
   };
 
   const pauseProcess = (woId: string) => {
-    setWorkOrders(prev => 
-      prev.map(wo => 
-        wo.id === woId 
-          ? { ...wo, status: 'paused' }
-          : wo
-      )
+    setWorkOrders((prev) =>
+      prev.map((wo) => (wo.id === woId ? { ...wo, status: "paused" } : wo))
     );
   };
 
   const completeProcess = (woId: string) => {
-    setWorkOrders(prev => 
-      prev.map(wo => 
-        wo.id === woId 
-          ? { ...wo, status: 'completed', progress: 100 }
-          : wo
+    setWorkOrders((prev) =>
+      prev.map((wo) =>
+        wo.id === woId ? { ...wo, status: "completed", progress: 100 } : wo
       )
     );
     setActiveProcess(null);
   };
 
-  const scanMaterial = (woId: string, materialCode: string, quantity: number) => {
-    setWorkOrders(prev => 
-      prev.map(wo => {
+  const scanMaterial = (
+    woId: string,
+    materialCode: string,
+    quantity: number
+  ) => {
+    setWorkOrders((prev) =>
+      prev.map((wo) => {
         if (wo.id === woId) {
-          const updatedMaterials = wo.materials.map(material => 
-            material.code === materialCode 
-              ? { ...material, scanned: Math.min(material.required, material.scanned + quantity) }
+          const updatedMaterials = wo.materials.map((material) =>
+            material.code === materialCode
+              ? {
+                  ...material,
+                  scanned: Math.min(
+                    material.required,
+                    material.scanned + quantity
+                  ),
+                }
               : material
           );
-          
-          const totalRequired = updatedMaterials.reduce((sum, m) => sum + m.required, 0);
-          const totalScanned = updatedMaterials.reduce((sum, m) => sum + m.scanned, 0);
+
+          const totalRequired = updatedMaterials.reduce(
+            (sum, m) => sum + m.required,
+            0
+          );
+          const totalScanned = updatedMaterials.reduce(
+            (sum, m) => sum + m.scanned,
+            0
+          );
           const progress = Math.round((totalScanned / totalRequired) * 100);
-          
+
           return { ...wo, materials: updatedMaterials, progress };
         }
         return wo;
       })
     );
-    
-    setScannedItems(prev => [...prev, `${woId}-${materialCode}-${quantity}`]);
+
+    setScannedItems((prev) => [...prev, `${woId}-${materialCode}-${quantity}`]);
     setTimeout(() => {
-      setScannedItems(prev => prev.filter(item => item !== `${woId}-${materialCode}-${quantity}`));
+      setScannedItems((prev) =>
+        prev.filter((item) => item !== `${woId}-${materialCode}-${quantity}`)
+      );
     }, 3000);
   };
 
   const generateOutputLabel = (wo: any) => {
     const outputCode = `WIP${Date.now().toString().slice(-6)}`;
-    alert(`전처리 산출 라벨 생성됨:\n\n산출코드: ${outputCode}\n품목: ${wo.product}\n수량: ${wo.quantity}${wo.unit}\n작업자: ${wo.operator}\n완료시간: ${new Date().toLocaleString('ko-KR')}\n\n라벨이 프린터로 전송되었습니다.`);
+    alert(
+      `전처리 산출 라벨 생성됨:\n\n산출코드: ${outputCode}\n품목: ${
+        wo.product
+      }\n수량: ${wo.quantity}${wo.unit}\n작업자: ${
+        wo.operator
+      }\n완료시간: ${new Date().toLocaleString(
+        "ko-KR"
+      )}\n\n라벨이 프린터로 전송되었습니다.`
+    );
   };
 
   return (
@@ -146,7 +222,9 @@ export function Plant1ProcessingPage() {
             <Factory className="w-6 h-6" />
             1공장 전처리 공정
           </h1>
-          <p className="text-[#333333] mt-1">공정시작 스캔, 투입 바코드 스캔, 전처리 산출 라벨 생성</p>
+          <p className="text-[#333333] mt-1">
+            공정시작 스캔, 투입 바코드 스캔, 전처리 산출 라벨 생성
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <Badge className="bg-[#A3C478] text-white px-4 py-2">
@@ -164,7 +242,10 @@ export function Plant1ProcessingPage() {
               <div>
                 <p className="text-sm text-[#333333] mb-1">진행중 작업</p>
                 <p className="text-2xl font-bold text-[#724323]">
-                  {workOrders.filter(wo => wo.status === 'in_progress').length}
+                  {
+                    workOrders.filter((wo) => wo.status === "in_progress")
+                      .length
+                  }
                 </p>
               </div>
               <div className="p-3 bg-[#F9B679] rounded-lg">
@@ -180,7 +261,7 @@ export function Plant1ProcessingPage() {
               <div>
                 <p className="text-sm text-[#333333] mb-1">대기 작업</p>
                 <p className="text-2xl font-bold text-[#724323]">
-                  {workOrders.filter(wo => wo.status === 'ready').length}
+                  {workOrders.filter((wo) => wo.status === "ready").length}
                 </p>
               </div>
               <div className="p-3 bg-[#A3C478] rounded-lg">
@@ -196,7 +277,7 @@ export function Plant1ProcessingPage() {
               <div>
                 <p className="text-sm text-[#333333] mb-1">완료 작업</p>
                 <p className="text-2xl font-bold text-[#724323]">
-                  {workOrders.filter(wo => wo.status === 'completed').length}
+                  {workOrders.filter((wo) => wo.status === "completed").length}
                 </p>
               </div>
               <div className="p-3 bg-[#724323] rounded-lg">
@@ -232,13 +313,23 @@ export function Plant1ProcessingPage() {
         <CardContent>
           <div className="space-y-6">
             {workOrders.map((wo) => (
-              <div key={wo.id} className="border border-[#F5E9D5] rounded-lg p-6">
+              <div
+                key={wo.id}
+                className="border border-[#F5E9D5] rounded-lg p-6"
+              >
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-4">
                     <div>
-                      <h3 className="font-medium text-[#724323] text-lg">{wo.id}</h3>
-                      <p className="text-[#333333]">{wo.type} • {wo.product}</p>
-                      <p className="text-sm text-[#333333]">목표: {wo.quantity}{wo.unit}</p>
+                      <h3 className="font-medium text-[#724323] text-lg">
+                        {wo.id}
+                      </h3>
+                      <p className="text-[#333333]">
+                        {wo.type} • {wo.product}
+                      </p>
+                      <p className="text-sm text-[#333333]">
+                        목표: {wo.quantity}
+                        {wo.unit}
+                      </p>
                     </div>
                     <Badge className={statusColors[wo.status]}>
                       {statusLabels[wo.status]}
@@ -247,13 +338,17 @@ export function Plant1ProcessingPage() {
                   <div className="flex items-center gap-4">
                     <div className="text-right">
                       <p className="text-sm text-[#333333]">작업자</p>
-                      <p className="font-medium text-[#724323]">{wo.operator}</p>
+                      <p className="font-medium text-[#724323]">
+                        {wo.operator}
+                      </p>
                       {wo.startTime && (
-                        <p className="text-sm text-[#333333]">시작: {wo.startTime}</p>
+                        <p className="text-sm text-[#333333]">
+                          시작: {wo.startTime}
+                        </p>
                       )}
                     </div>
                     <div className="flex flex-col gap-2">
-                      {wo.status === 'ready' && (
+                      {wo.status === "ready" && (
                         <Button
                           onClick={() => startProcess(wo.id)}
                           className="bg-[#A3C478] hover:bg-[#8fb865] text-white"
@@ -262,7 +357,7 @@ export function Plant1ProcessingPage() {
                           시작
                         </Button>
                       )}
-                      {wo.status === 'in_progress' && (
+                      {wo.status === "in_progress" && (
                         <>
                           <Button
                             onClick={() => pauseProcess(wo.id)}
@@ -281,7 +376,7 @@ export function Plant1ProcessingPage() {
                           </Button>
                         </>
                       )}
-                      {wo.status === 'completed' && (
+                      {wo.status === "completed" && (
                         <Button
                           onClick={() => generateOutputLabel(wo)}
                           className="bg-[#F9B679] hover:bg-[#f7a866] text-white"
@@ -291,15 +386,6 @@ export function Plant1ProcessingPage() {
                       )}
                     </div>
                   </div>
-                </div>
-
-                {/* Progress */}
-                <div className="mb-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-[#333333]">진행률</span>
-                    <span className="text-sm font-medium text-[#724323]">{wo.progress}%</span>
-                  </div>
-                  <Progress value={wo.progress} className="h-2" />
                 </div>
 
                 {/* Materials */}
@@ -321,31 +407,54 @@ export function Plant1ProcessingPage() {
                     </TableHeader>
                     <TableBody>
                       {wo.materials.map((material) => {
-                        const materialProgress = Math.round((material.scanned / material.required) * 100);
-                        const isScanned = scannedItems.some(item => item.includes(material.code));
-                        
+                        const materialProgress = Math.round(
+                          (material.scanned / material.required) * 100
+                        );
+                        const isScanned = scannedItems.some((item) =>
+                          item.includes(material.code)
+                        );
+
                         return (
-                          <TableRow key={material.code} className={isScanned ? 'bg-green-50' : ''}>
-                            <TableCell className="font-medium">{material.code}</TableCell>
+                          <TableRow
+                            key={material.code}
+                            className={isScanned ? "bg-green-50" : ""}
+                          >
+                            <TableCell className="font-medium">
+                              {material.code}
+                            </TableCell>
                             <TableCell>{material.name}</TableCell>
-                            <TableCell>{material.required} {material.unit}</TableCell>
+                            <TableCell>
+                              {material.required} {material.unit}
+                            </TableCell>
                             <TableCell className="font-medium">
                               {material.scanned} {material.unit}
                               {isScanned && (
-                                <Badge className="ml-2 bg-green-500 text-white">스캔됨!</Badge>
+                                <Badge className="ml-2 bg-green-500 text-white">
+                                  스캔됨!
+                                </Badge>
                               )}
                             </TableCell>
                             <TableCell>
                               <div className="flex items-center gap-2">
-                                <Progress value={materialProgress} className="w-16 h-2" />
-                                <span className="text-sm">{materialProgress}%</span>
+                                <Progress
+                                  value={materialProgress}
+                                  className="w-16 h-2"
+                                />
+                                <span className="text-sm">
+                                  {materialProgress}%
+                                </span>
                               </div>
                             </TableCell>
                             <TableCell>
                               <Button
                                 size="sm"
-                                onClick={() => scanMaterial(wo.id, material.code, 10)}
-                                disabled={material.scanned >= material.required || wo.status !== 'in_progress'}
+                                onClick={() =>
+                                  scanMaterial(wo.id, material.code, 10)
+                                }
+                                disabled={
+                                  material.scanned >= material.required ||
+                                  wo.status !== "in_progress"
+                                }
                                 className="bg-[#724323] hover:bg-[#5a3419] text-white"
                               >
                                 <Scan className="w-4 h-4 mr-1" />

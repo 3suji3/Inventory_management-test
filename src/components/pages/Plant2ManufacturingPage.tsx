@@ -1,124 +1,181 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
-import { Badge } from '../ui/badge';
-import { Progress } from '../ui/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { Factory, Scan, Play, Package, ChefHat, Box, Snowflake, CheckCircle, Clock, Thermometer } from 'lucide-react';
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
+import { Badge } from "../ui/badge";
+import { Progress } from "../ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import {
+  Factory,
+  Scan,
+  Play,
+  Package,
+  ChefHat,
+  Box,
+  Snowflake,
+  CheckCircle,
+  Clock,
+  Thermometer,
+} from "lucide-react";
 
 export function Plant2ManufacturingPage() {
   const [manufacturingOrders, setManufacturingOrders] = useState([
     {
-      id: 'MO001',
-      product: '애니콩 펫베이커리 A',
+      id: "MO001",
+      product: "애니콩 펫베이커리 A",
       targetQuantity: 1000,
       producedQuantity: 650,
-      unit: 'ea',
-      status: 'in_progress',
-      stage: 'baking',
-      startTime: '08:00',
-      estimatedCompletion: '16:00',
-      operator: '최제조',
-      recipe: 'RCP001',
+      unit: "ea",
+      status: "in_progress",
+      stage: "baking",
+      startTime: "08:00",
+      estimatedCompletion: "16:00",
+      operator: "최제조",
+      recipe: "RCP001",
       bom: [
-        { code: 'WIP001', name: '전처리 믹스 A', required: 500, consumed: 325, unit: 'kg' },
-        { code: 'RAW005', name: '조미료', required: 50, consumed: 32.5, unit: 'kg' },
-        { code: 'PKG001', name: '포장재', required: 1000, consumed: 650, unit: 'ea' }
-      ]
+        {
+          code: "WIP001",
+          name: "전처리 믹스 A",
+          required: 500,
+          consumed: 325,
+          unit: "kg",
+        },
+        {
+          code: "RAW005",
+          name: "조미료",
+          required: 50,
+          consumed: 32.5,
+          unit: "kg",
+        },
+        {
+          code: "PKG001",
+          name: "포장재",
+          required: 1000,
+          consumed: 650,
+          unit: "ea",
+        },
+      ],
     },
     {
-      id: 'MO002',
-      product: '애니콩 펫베이커리 B',
+      id: "MO002",
+      product: "애니콩 펫베이커리 B",
       targetQuantity: 500,
       producedQuantity: 0,
-      unit: 'ea',
-      status: 'ready',
-      stage: 'waiting',
-      operator: '김혼합',
-      recipe: 'RCP002',
+      unit: "ea",
+      status: "ready",
+      stage: "waiting",
+      operator: "김혼합",
+      recipe: "RCP002",
       bom: [
-        { code: 'WIP002', name: '세척 야채 믹스', required: 200, consumed: 0, unit: 'kg' },
-        { code: 'RAW006', name: '육류 베이스', required: 100, consumed: 0, unit: 'kg' }
-      ]
-    }
+        {
+          code: "WIP002",
+          name: "세척 야채 믹스",
+          required: 200,
+          consumed: 0,
+          unit: "kg",
+        },
+        {
+          code: "RAW006",
+          name: "육류 베이스",
+          required: 100,
+          consumed: 0,
+          unit: "kg",
+        },
+      ],
+    },
   ]);
 
   const [qualityChecks, setQualityChecks] = useState([
     {
-      id: 'QC001',
-      moId: 'MO001',
-      stage: 'mixing',
-      parameter: '온도',
-      target: '65°C',
-      actual: '64°C',
-      status: 'pass',
-      checkedBy: '박품질',
-      checkTime: '10:30'
+      id: "QC001",
+      moId: "MO001",
+      stage: "mixing",
+      parameter: "온도",
+      target: "65°C",
+      actual: "64°C",
+      status: "pass",
+      checkedBy: "박품질",
+      checkTime: "10:30",
     },
     {
-      id: 'QC002',
-      moId: 'MO001',
-      stage: 'baking',
-      parameter: '습도',
-      target: '85%',
-      actual: '87%',
-      status: 'warning',
-      checkedBy: '박품질',
-      checkTime: '14:15'
-    }
+      id: "QC002",
+      moId: "MO001",
+      stage: "baking",
+      parameter: "습도",
+      target: "85%",
+      actual: "87%",
+      status: "warning",
+      checkedBy: "박품질",
+      checkTime: "14:15",
+    },
   ]);
 
-  const statusColors = {
-    ready: 'bg-blue-100 text-blue-800',
-    in_progress: 'bg-yellow-100 text-yellow-800',
-    completed: 'bg-green-100 text-green-800',
-    paused: 'bg-gray-100 text-gray-800'
+  const statusColors: { [key: string]: string } = {
+    ready: "bg-blue-100 text-blue-800",
+    in_progress: "bg-yellow-100 text-yellow-800",
+    completed: "bg-green-100 text-green-800",
+    paused: "bg-gray-100 text-gray-800",
   };
 
-  const statusLabels = {
-    ready: '준비',
-    in_progress: '진행중',
-    completed: '완료',
-    paused: '일시정지'
+  const statusLabels: { [key: string]: string } = {
+    ready: "준비",
+    in_progress: "진행중",
+    completed: "완료",
+    paused: "일시정지",
   };
 
-  const stageColors = {
-    waiting: 'bg-gray-100 text-gray-800',
-    mixing: 'bg-blue-100 text-blue-800',
-    baking: 'bg-orange-100 text-orange-800',
-    packaging: 'bg-purple-100 text-purple-800',
-    cold_storage: 'bg-cyan-100 text-cyan-800',
-    completed: 'bg-green-100 text-green-800'
+  const stageColors: { [key: string]: string } = {
+    waiting: "bg-gray-100 text-gray-800",
+    mixing: "bg-blue-100 text-blue-800",
+    baking: "bg-orange-100 text-orange-800",
+    packaging: "bg-purple-100 text-purple-800",
+    cold_storage: "bg-cyan-100 text-cyan-800",
+    completed: "bg-green-100 text-green-800",
   };
 
-  const stageLabels = {
-    waiting: '대기',
-    mixing: '혼합/배합',
-    baking: '조리/베이킹',
-    packaging: '포장',
-    cold_storage: '냉동보관',
-    completed: '완료'
+  const stageLabels: { [key: string]: string } = {
+    waiting: "대기",
+    mixing: "혼합/배합",
+    baking: "조리/베이킹",
+    packaging: "포장",
+    cold_storage: "냉동보관",
+    completed: "완료",
   };
 
   const qualityStatusColors = {
-    pass: 'bg-green-100 text-green-800',
-    warning: 'bg-yellow-100 text-yellow-800',
-    fail: 'bg-red-100 text-red-800'
+    pass: "bg-green-100 text-green-800",
+    warning: "bg-yellow-100 text-yellow-800",
+    fail: "bg-red-100 text-red-800",
   };
 
   const startManufacturing = (moId: string) => {
-    setManufacturingOrders(prev => 
-      prev.map(mo => 
-        mo.id === moId 
-          ? { 
-              ...mo, 
-              status: 'in_progress', 
-              stage: 'mixing',
-              startTime: new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })
+    setManufacturingOrders((prev) =>
+      prev.map((mo) =>
+        mo.id === moId
+          ? {
+              ...mo,
+              status: "in_progress",
+              stage: "mixing",
+              startTime: new Date().toLocaleTimeString("ko-KR", {
+                hour: "2-digit",
+                minute: "2-digit",
+              }),
             }
           : mo
       )
@@ -126,16 +183,23 @@ export function Plant2ManufacturingPage() {
   };
 
   const advanceStage = (moId: string) => {
-    const stages = ['mixing', 'baking', 'packaging', 'cold_storage', 'completed'];
-    setManufacturingOrders(prev => 
-      prev.map(mo => {
+    const stages = [
+      "mixing",
+      "baking",
+      "packaging",
+      "cold_storage",
+      "completed",
+    ];
+    setManufacturingOrders((prev) =>
+      prev.map((mo) => {
         if (mo.id === moId) {
           const currentIndex = stages.indexOf(mo.stage);
-          const nextStage = stages[Math.min(currentIndex + 1, stages.length - 1)];
+          const nextStage =
+            stages[Math.min(currentIndex + 1, stages.length - 1)];
           return {
             ...mo,
             stage: nextStage,
-            status: nextStage === 'completed' ? 'completed' : mo.status
+            status: nextStage === "completed" ? "completed" : mo.status,
           };
         }
         return mo;
@@ -144,20 +208,31 @@ export function Plant2ManufacturingPage() {
   };
 
   const scanBOM = (moId: string, bomCode: string, quantity: number) => {
-    setManufacturingOrders(prev => 
-      prev.map(mo => {
+    setManufacturingOrders((prev) =>
+      prev.map((mo) => {
         if (mo.id === moId) {
-          const updatedBom = mo.bom.map(item => 
-            item.code === bomCode 
-              ? { ...item, consumed: Math.min(item.required, item.consumed + quantity) }
+          const updatedBom = mo.bom.map((item) =>
+            item.code === bomCode
+              ? {
+                  ...item,
+                  consumed: Math.min(item.required, item.consumed + quantity),
+                }
               : item
           );
-          
-          const totalRequired = updatedBom.reduce((sum, item) => sum + item.required, 0);
-          const totalConsumed = updatedBom.reduce((sum, item) => sum + item.consumed, 0);
+
+          const totalRequired = updatedBom.reduce(
+            (sum, item) => sum + item.required,
+            0
+          );
+          const totalConsumed = updatedBom.reduce(
+            (sum, item) => sum + item.consumed,
+            0
+          );
           const progress = Math.round((totalConsumed / totalRequired) * 100);
-          const producedQuantity = Math.round((progress / 100) * mo.targetQuantity);
-          
+          const producedQuantity = Math.round(
+            (progress / 100) * mo.targetQuantity
+          );
+
           return { ...mo, bom: updatedBom, producedQuantity };
         }
         return mo;
@@ -167,17 +242,20 @@ export function Plant2ManufacturingPage() {
 
   const addQualityCheck = (moId: string, stage: string) => {
     const newCheck = {
-      id: `QC${String(qualityChecks.length + 1).padStart(3, '0')}`,
+      id: `QC${String(qualityChecks.length + 1).padStart(3, "0")}`,
       moId,
       stage,
-      parameter: '온도',
-      target: '65°C',
-      actual: '65°C',
-      status: 'pass' as const,
-      checkedBy: '박품질',
-      checkTime: new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })
+      parameter: "온도",
+      target: "65°C",
+      actual: "65°C",
+      status: "pass" as const,
+      checkedBy: "박품질",
+      checkTime: new Date().toLocaleTimeString("ko-KR", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
     };
-    setQualityChecks(prev => [newCheck, ...prev]);
+    setQualityChecks((prev) => [newCheck, ...prev]);
   };
 
   return (
@@ -188,7 +266,9 @@ export function Plant2ManufacturingPage() {
             <Factory className="w-6 h-6" />
             2공장 제조/포장
           </h1>
-          <p className="text-[#333333] mt-1">MO 발행, 공정별 스캔, BOM 차감, 밀키트/완제품 분기</p>
+          <p className="text-[#333333] mt-1">
+            MO 발행, 공정별 스캔, BOM 차감, 밀키트/완제품 분기
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <Badge className="bg-[#F9B679] text-white px-4 py-2">
@@ -215,7 +295,11 @@ export function Plant2ManufacturingPage() {
                   <div>
                     <p className="text-sm text-[#333333] mb-1">진행중 MO</p>
                     <p className="text-2xl font-bold text-[#724323]">
-                      {manufacturingOrders.filter(mo => mo.status === 'in_progress').length}
+                      {
+                        manufacturingOrders.filter(
+                          (mo) => mo.status === "in_progress"
+                        ).length
+                      }
                     </p>
                   </div>
                   <div className="p-3 bg-[#F9B679] rounded-lg">
@@ -245,7 +329,10 @@ export function Plant2ManufacturingPage() {
                   <div>
                     <p className="text-sm text-[#333333] mb-1">품질 검사</p>
                     <p className="text-2xl font-bold text-[#724323]">
-                      {qualityChecks.filter(qc => qc.status === 'pass').length}
+                      {
+                        qualityChecks.filter((qc) => qc.status === "pass")
+                          .length
+                      }
                     </p>
                   </div>
                   <div className="p-3 bg-[#724323] rounded-lg">
@@ -281,13 +368,22 @@ export function Plant2ManufacturingPage() {
             <CardContent>
               <div className="space-y-6">
                 {manufacturingOrders.map((mo) => (
-                  <div key={mo.id} className="border border-[#F5E9D5] rounded-lg p-6">
+                  <div
+                    key={mo.id}
+                    className="border border-[#F5E9D5] rounded-lg p-6"
+                  >
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-4">
                         <div>
-                          <h3 className="font-medium text-[#724323] text-lg">{mo.id}</h3>
+                          <h3 className="font-medium text-[#724323] text-lg">
+                            {mo.id}
+                          </h3>
                           <p className="text-[#333333]">{mo.product}</p>
-                          <p className="text-sm text-[#333333]">목표: {mo.targetQuantity}{mo.unit} | 생산: {mo.producedQuantity}{mo.unit}</p>
+                          <p className="text-sm text-[#333333]">
+                            목표: {mo.targetQuantity}
+                            {mo.unit} | 생산: {mo.producedQuantity}
+                            {mo.unit}
+                          </p>
                         </div>
                         <Badge className={statusColors[mo.status]}>
                           {statusLabels[mo.status]}
@@ -297,7 +393,7 @@ export function Plant2ManufacturingPage() {
                         </Badge>
                       </div>
                       <div className="flex items-center gap-2">
-                        {mo.status === 'ready' && (
+                        {mo.status === "ready" && (
                           <Button
                             onClick={() => startManufacturing(mo.id)}
                             className="bg-[#A3C478] hover:bg-[#8fb865] text-white"
@@ -306,36 +402,45 @@ export function Plant2ManufacturingPage() {
                             제조 시작
                           </Button>
                         )}
-                        {mo.status === 'in_progress' && mo.stage !== 'completed' && (
-                          <>
-                            <Button
-                              onClick={() => advanceStage(mo.id)}
-                              className="bg-[#F9B679] hover:bg-[#f7a866] text-white"
-                            >
-                              다음 공정
-                            </Button>
-                            <Button
-                              onClick={() => addQualityCheck(mo.id, mo.stage)}
-                              variant="outline"
-                              className="border-[#724323] text-[#724323] hover:bg-[#F5E9D5]"
-                            >
-                              <CheckCircle className="w-4 h-4 mr-2" />
-                              품질검사
-                            </Button>
-                          </>
-                        )}
+                        {mo.status === "in_progress" &&
+                          mo.stage !== "completed" && (
+                            <>
+                              <Button
+                                onClick={() => advanceStage(mo.id)}
+                                className="bg-[#F9B679] hover:bg-[#f7a866] text-white"
+                              >
+                                다음 공정
+                              </Button>
+                              <Button
+                                onClick={() => addQualityCheck(mo.id, mo.stage)}
+                                variant="outline"
+                                className="border-[#724323] text-[#724323] hover:bg-[#F5E9D5]"
+                              >
+                                <CheckCircle className="w-4 h-4 mr-2" />
+                                품질검사
+                              </Button>
+                            </>
+                          )}
                       </div>
                     </div>
 
                     {/* Progress */}
                     <div className="mb-4">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-[#333333]">생산 진행률</span>
+                        <span className="text-sm text-[#333333]">
+                          생산 진행률
+                        </span>
                         <span className="text-sm font-medium text-[#724323]">
-                          {Math.round((mo.producedQuantity / mo.targetQuantity) * 100)}%
+                          {Math.round(
+                            (mo.producedQuantity / mo.targetQuantity) * 100
+                          )}
+                          %
                         </span>
                       </div>
-                      <Progress value={(mo.producedQuantity / mo.targetQuantity) * 100} className="h-2" />
+                      <Progress
+                        value={(mo.producedQuantity / mo.targetQuantity) * 100}
+                        className="h-2"
+                      />
                     </div>
 
                     {/* BOM */}
@@ -357,27 +462,41 @@ export function Plant2ManufacturingPage() {
                         </TableHeader>
                         <TableBody>
                           {mo.bom.map((item) => {
-                            const progress = Math.round((item.consumed / item.required) * 100);
-                            
+                            const progress = Math.round(
+                              (item.consumed / item.required) * 100
+                            );
+
                             return (
                               <TableRow key={item.code}>
-                                <TableCell className="font-medium">{item.code}</TableCell>
+                                <TableCell className="font-medium">
+                                  {item.code}
+                                </TableCell>
                                 <TableCell>{item.name}</TableCell>
-                                <TableCell>{item.required} {item.unit}</TableCell>
+                                <TableCell>
+                                  {item.required} {item.unit}
+                                </TableCell>
                                 <TableCell className="font-medium">
                                   {item.consumed} {item.unit}
                                 </TableCell>
                                 <TableCell>
                                   <div className="flex items-center gap-2">
-                                    <Progress value={progress} className="w-16 h-2" />
+                                    <Progress
+                                      value={progress}
+                                      className="w-16 h-2"
+                                    />
                                     <span className="text-sm">{progress}%</span>
                                   </div>
                                 </TableCell>
                                 <TableCell>
                                   <Button
                                     size="sm"
-                                    onClick={() => scanBOM(mo.id, item.code, 10)}
-                                    disabled={item.consumed >= item.required || mo.status !== 'in_progress'}
+                                    onClick={() =>
+                                      scanBOM(mo.id, item.code, 10)
+                                    }
+                                    disabled={
+                                      item.consumed >= item.required ||
+                                      mo.status !== "in_progress"
+                                    }
                                     className="bg-[#724323] hover:bg-[#5a3419] text-white"
                                   >
                                     <Scan className="w-4 h-4 mr-1" />
@@ -396,7 +515,9 @@ export function Plant2ManufacturingPage() {
                       <span>작업자: {mo.operator}</span>
                       <span>레시피: {mo.recipe}</span>
                       {mo.startTime && <span>시작시간: {mo.startTime}</span>}
-                      {mo.estimatedCompletion && <span>예상완료: {mo.estimatedCompletion}</span>}
+                      {mo.estimatedCompletion && (
+                        <span>예상완료: {mo.estimatedCompletion}</span>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -445,10 +566,16 @@ export function Plant2ManufacturingPage() {
                         </div>
                       </TableCell>
                       <TableCell>{check.target}</TableCell>
-                      <TableCell className="font-medium">{check.actual}</TableCell>
+                      <TableCell className="font-medium">
+                        {check.actual}
+                      </TableCell>
                       <TableCell>
                         <Badge className={qualityStatusColors[check.status]}>
-                          {check.status === 'pass' ? '합격' : check.status === 'warning' ? '주의' : '불합격'}
+                          {check.status === "pass"
+                            ? "합격"
+                            : check.status === "warning"
+                            ? "주의"
+                            : "불합격"}
                         </Badge>
                       </TableCell>
                       <TableCell>{check.checkedBy}</TableCell>
@@ -473,7 +600,9 @@ export function Plant2ManufacturingPage() {
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-[#333333]">현재 작업</span>
-                  <Badge className="bg-yellow-100 text-yellow-800">MO001 진행중</Badge>
+                  <Badge className="bg-yellow-100 text-yellow-800">
+                    MO001 진행중
+                  </Badge>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
