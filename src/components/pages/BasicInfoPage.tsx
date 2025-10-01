@@ -513,7 +513,7 @@ export function BasicInfoPage() {
                 </div>
                 <div>
                   <Label>적용 품목</Label>
-                  <div className="space-y-1 mt-2">
+                  <div className="space-y-1 mt-2 space-x-1">
                     <Badge variant="outline">건조 사료</Badge>
                     <Badge variant="outline">포장재</Badge>
                   </div>
@@ -539,7 +539,7 @@ export function BasicInfoPage() {
                 </div>
                 <div>
                   <Label>적용 품목</Label>
-                  <div className="space-y-1 mt-2">
+                  <div className="space-y-1 mt-2 space-x-1">
                     <Badge variant="outline">신선 육류</Badge>
                     <Badge variant="outline">야채류</Badge>
                     <Badge variant="outline">반제품</Badge>
@@ -566,7 +566,7 @@ export function BasicInfoPage() {
                 </div>
                 <div>
                   <Label>적용 품목</Label>
-                  <div className="space-y-1 mt-2">
+                  <div className="space-y-1 mt-2 space-x-1">
                     <Badge variant="outline">완제품</Badge>
                     <Badge variant="outline">냉동 육류</Badge>
                   </div>

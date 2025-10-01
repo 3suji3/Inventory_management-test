@@ -426,25 +426,6 @@ export function Plant2ManufacturingPage() {
                       </div>
                     </div>
 
-                    {/* Progress */}
-                    <div className="mb-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-[#333333]">
-                          생산 진행률
-                        </span>
-                        <span className="text-sm font-medium text-[#724323]">
-                          {Math.round(
-                            (mo.producedQuantity / mo.targetQuantity) * 100
-                          )}
-                          %
-                        </span>
-                      </div>
-                      <Progress
-                        value={(mo.producedQuantity / mo.targetQuantity) * 100}
-                        className="h-2"
-                      />
-                    </div>
-
                     {/* BOM */}
                     <div>
                       <h4 className="font-medium text-[#724323] mb-3 flex items-center gap-2">

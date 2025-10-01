@@ -480,10 +480,6 @@ export function DocumentApprovalPage() {
                     setIsNewDocDialogOpen={setIsNewDocDialogOpen}
                   />
                 )}
-                {/*
-                  The following forms should be imported and typed in their respective files:
-                  DefectReportForm, SafetyCheckForm, QualityReportForm
-                */}
                 {newDocument.type === "defect_report" && (
                   <DefectReportForm
                     newDocument={newDocument}
