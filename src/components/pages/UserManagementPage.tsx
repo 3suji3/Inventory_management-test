@@ -1,201 +1,243 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
-import { Badge } from '../ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { Switch } from '../ui/switch';
-import { Users, UserPlus, Shield, Settings, Eye, Edit, Trash2, CheckCircle, AlertTriangle } from 'lucide-react';
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
+import { Badge } from "../ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { Switch } from "../ui/switch";
+import {
+  Users,
+  UserPlus,
+  Shield,
+  Settings,
+  Eye,
+  Edit,
+  Trash2,
+  CheckCircle,
+  AlertTriangle,
+} from "lucide-react";
 
 export function UserManagementPage() {
   const [users, setUsers] = useState([
     {
-      id: 'USR001',
-      username: '관리자',
-      email: 'admin@aniecong.com',
-      role: 'Admin',
-      department: '관리부',
-      plant: 'ALL',
-      status: 'active',
-      lastLogin: '2025-09-11 14:30',
-      permissions: ['all']
+      id: "USR001",
+      username: "관리자",
+      email: "admin@aniecong.com",
+      role: "Admin",
+      department: "관리부",
+      plant: "ALL",
+      status: "active",
+      lastLogin: "2025-09-11 14:30",
+      permissions: ["all"],
     },
     {
-      id: 'USR002',
-      username: '김검수',
-      email: 'kim.inspector@aniecong.com',
-      role: 'QC',
-      department: '품질관리',
-      plant: 'P1',
-      status: 'active',
-      lastLogin: '2025-09-11 09:15',
-      permissions: ['receiving', 'quality_check']
+      id: "USR002",
+      username: "김검수",
+      email: "kim.inspector@aniecong.com",
+      role: "QC",
+      department: "품질관리",
+      plant: "P1",
+      status: "active",
+      lastLogin: "2025-09-11 09:15",
+      permissions: ["receiving", "quality_check"],
     },
     {
-      id: 'USR003',
-      username: '이전처리',
-      email: 'lee.processor@aniecong.com',
-      role: 'Operator',
-      department: '전처리',
-      plant: 'P1',
-      status: 'active',
-      lastLogin: '2025-09-11 08:45',
-      permissions: ['plant1_processing', 'basic_info']
+      id: "USR003",
+      username: "이전처리",
+      email: "lee.processor@aniecong.com",
+      role: "Operator",
+      department: "전처리",
+      plant: "P1",
+      status: "active",
+      lastLogin: "2025-09-11 08:45",
+      permissions: ["plant1_processing", "basic_info"],
     },
     {
-      id: 'USR004',
-      username: '최제조',
-      email: 'choi.manufacturer@aniecong.com',
-      role: 'Operator',
-      department: '제조',
-      plant: 'P2',
-      status: 'active',
-      lastLogin: '2025-09-11 13:20',
-      permissions: ['plant2_manufacturing', 'inter_plant_transfer']
+      id: "USR004",
+      username: "최제조",
+      email: "choi.manufacturer@aniecong.com",
+      role: "Operator",
+      department: "제조",
+      plant: "P2",
+      status: "active",
+      lastLogin: "2025-09-11 13:20",
+      permissions: ["plant2_manufacturing", "inter_plant_transfer"],
     },
     {
-      id: 'USR005',
-      username: '박품질',
-      email: 'park.quality@aniecong.com',
-      role: 'QC',
-      department: '품질관리',
-      plant: 'P2',
-      status: 'inactive',
-      lastLogin: '2025-09-09 16:00',
-      permissions: ['quality_check', 'label_management']
-    }
+      id: "USR005",
+      username: "박품질",
+      email: "park.quality@aniecong.com",
+      role: "QC",
+      department: "품질관리",
+      plant: "P2",
+      status: "inactive",
+      lastLogin: "2025-09-09 16:00",
+      permissions: ["quality_check", "label_management"],
+    },
   ]);
 
   const [roles, setRoles] = useState([
     {
-      id: 'Admin',
-      name: '관리자',
-      description: '시스템 전체 관리 권한',
-      permissions: ['all'],
-      userCount: 1
+      id: "Admin",
+      name: "관리자",
+      description: "시스템 전체 관리 권한",
+      permissions: ["all"],
+      userCount: 1,
     },
     {
-      id: 'Planner',
-      name: '계획자',
-      description: '생산계획 및 일정관리',
-      permissions: ['basic_info', 'manufacturing_planning', 'inventory_view'],
-      userCount: 0
+      id: "Planner",
+      name: "계획자",
+      description: "생산계획 및 일정관리",
+      permissions: ["basic_info", "manufacturing_planning", "inventory_view"],
+      userCount: 0,
     },
     {
-      id: 'Operator',
-      name: '작업자',
-      description: '공정 작업 및 스캔',
-      permissions: ['plant1_processing', 'plant2_manufacturing', 'inter_plant_transfer'],
-      userCount: 2
+      id: "Operator",
+      name: "작업자",
+      description: "공정 작업 및 스캔",
+      permissions: [
+        "plant1_processing",
+        "plant2_manufacturing",
+        "inter_plant_transfer",
+      ],
+      userCount: 2,
     },
     {
-      id: 'QC',
-      name: '품질관리',
-      description: '품질검사 및 검수',
-      permissions: ['receiving', 'quality_check', 'label_management'],
-      userCount: 2
+      id: "QC",
+      name: "품질관리",
+      description: "품질검사 및 검수",
+      permissions: ["receiving", "quality_check", "label_management"],
+      userCount: 2,
     },
     {
-      id: 'Shipper',
-      name: '출고담당',
-      description: '출고 및 배송관리',
-      permissions: ['shipping', 'inventory_view'],
-      userCount: 0
-    }
+      id: "Shipper",
+      name: "출고담당",
+      description: "출고 및 배송관리",
+      permissions: ["shipping", "inventory_view"],
+      userCount: 0,
+    },
   ]);
 
   const [newUser, setNewUser] = useState({
-    username: '',
-    email: '',
-    role: '',
-    department: '',
-    plant: '',
-    password: ''
+    username: "",
+    email: "",
+    role: "",
+    department: "",
+    plant: "",
+    password: "",
   });
 
   const [permissions] = useState([
-    { id: 'basic_info', name: '기초정보 관리', module: '기초정보' },
-    { id: 'receiving', name: '입고/검수', module: '입고관리' },
-    { id: 'plant1_processing', name: '1공장 전처리', module: '제조관리' },
-    { id: 'inter_plant_transfer', name: '공장간 이동', module: '제조관리' },
-    { id: 'plant2_manufacturing', name: '2공장 제조', module: '제조관리' },
-    { id: 'shipping', name: '출고관리', module: '출고관리' },
-    { id: 'label_management', name: '라벨관리', module: '라벨관리' },
-    { id: 'inventory_view', name: '재고조회', module: '재고관리' },
-    { id: 'quality_check', name: '품질검사', module: '품질관리' },
-    { id: 'user_management', name: '사용자관리', module: '시스템관리' },
-    { id: 'all', name: '전체권한', module: '시스템관리' }
+    { id: "basic_info", name: "기초정보 관리", module: "기초정보" },
+    { id: "receiving", name: "입고/검수", module: "입고관리" },
+    { id: "plant1_processing", name: "1공장 전처리", module: "제조관리" },
+    { id: "inter_plant_transfer", name: "공장간 이동", module: "제조관리" },
+    { id: "plant2_manufacturing", name: "2공장 제조", module: "제조관리" },
+    { id: "shipping", name: "출고관리", module: "출고관리" },
+    { id: "label_management", name: "라벨관리", module: "라벨관리" },
+    { id: "inventory_view", name: "재고조회", module: "재고관리" },
+    { id: "quality_check", name: "품질검사", module: "품질관리" },
+    { id: "user_management", name: "사용자관리", module: "시스템관리" },
+    { id: "all", name: "전체권한", module: "시스템관리" },
   ]);
 
-  const statusColors = {
-    active: 'bg-green-100 text-green-800',
-    inactive: 'bg-gray-100 text-gray-800',
-    suspended: 'bg-red-100 text-red-800'
+  const statusColors: { [key: string]: string } = {
+    active: "bg-green-100 text-green-800",
+    inactive: "bg-gray-100 text-gray-800",
+    suspended: "bg-red-100 text-red-800",
   };
 
-  const statusLabels = {
-    active: '활성',
-    inactive: '비활성',
-    suspended: '정지'
+  const statusLabels: { [key: string]: string } = {
+    active: "활성",
+    inactive: "비활성",
+    suspended: "정지",
   };
 
-  const roleColors = {
-    Admin: 'bg-purple-100 text-purple-800',
-    Planner: 'bg-blue-100 text-blue-800',
-    Operator: 'bg-green-100 text-green-800',
-    QC: 'bg-orange-100 text-orange-800',
-    Shipper: 'bg-cyan-100 text-cyan-800'
+  const roleColors: { [key: string]: string } = {
+    Admin: "bg-purple-100 text-purple-800",
+    Planner: "bg-blue-100 text-blue-800",
+    Operator: "bg-green-100 text-green-800",
+    QC: "bg-orange-100 text-orange-800",
+    Shipper: "bg-cyan-100 text-cyan-800",
   };
 
   const createUser = () => {
     if (!newUser.username || !newUser.email || !newUser.role) {
-      alert('필수 정보를 모두 입력해주세요.');
+      alert("필수 정보를 모두 입력해주세요.");
       return;
     }
 
-    const userId = `USR${String(users.length + 1).padStart(3, '0')}`;
-    const rolePermissions = roles.find(r => r.id === newUser.role)?.permissions || [];
-    
+    const userId = `USR${String(users.length + 1).padStart(3, "0")}`;
+    const rolePermissions =
+      roles.find((r) => r.id === newUser.role)?.permissions || [];
+
     const user = {
       ...newUser,
       id: userId,
-      status: 'active' as const,
-      lastLogin: '-',
-      permissions: rolePermissions
+      status: "active" as const,
+      lastLogin: "-",
+      permissions: rolePermissions,
     };
-    
-    setUsers(prev => [...prev, user]);
-    setNewUser({ username: '', email: '', role: '', department: '', plant: '', password: '' });
-    
+
+    setUsers((prev) => [...prev, user]);
+    setNewUser({
+      username: "",
+      email: "",
+      role: "",
+      department: "",
+      plant: "",
+      password: "",
+    });
+
     alert(`사용자 생성 완료: ${userId}`);
   };
 
   const toggleUserStatus = (userId: string) => {
-    setUsers(prev => 
-      prev.map(user => 
-        user.id === userId 
-          ? { ...user, status: user.status === 'active' ? 'inactive' : 'active' }
+    setUsers((prev) =>
+      prev.map((user) =>
+        user.id === userId
+          ? {
+              ...user,
+              status: user.status === "active" ? "inactive" : "active",
+            }
           : user
       )
     );
   };
 
   const deleteUser = (userId: string) => {
-    if (confirm('정말로 이 사용자를 삭제하시겠습니까?')) {
-      setUsers(prev => prev.filter(user => user.id !== userId));
+    if (confirm("정말로 이 사용자를 삭제하시겠습니까?")) {
+      setUsers((prev) => prev.filter((user) => user.id !== userId));
     }
   };
 
-  const updateUserPermissions = (userId: string, permissionId: string, granted: boolean) => {
-    setUsers(prev => 
-      prev.map(user => {
+  const updateUserPermissions = (
+    userId: string,
+    permissionId: string,
+    granted: boolean
+  ) => {
+    setUsers((prev) =>
+      prev.map((user) => {
         if (user.id === userId) {
-          const newPermissions = granted 
+          const newPermissions = granted
             ? [...user.permissions, permissionId]
-            : user.permissions.filter(p => p !== permissionId);
+            : user.permissions.filter((p) => p !== permissionId);
           return { ...user, permissions: newPermissions };
         }
         return user;
@@ -211,7 +253,9 @@ export function UserManagementPage() {
             <Users className="w-6 h-6" />
             사용자/권한 관리
           </h1>
-          <p className="text-[#333333] mt-1">RBAC 기반 접근제어, 사용자 등록 및 권한 설정</p>
+          <p className="text-[#333333] mt-1">
+            RBAC 기반 접근제어, 사용자 등록 및 권한 설정
+          </p>
         </div>
       </div>
 
@@ -231,7 +275,9 @@ export function UserManagementPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-[#333333] mb-1">전체 사용자</p>
-                    <p className="text-2xl font-bold text-[#724323]">{users.length}</p>
+                    <p className="text-2xl font-bold text-[#724323]">
+                      {users.length}
+                    </p>
                   </div>
                   <div className="p-3 bg-[#724323] rounded-lg">
                     <Users className="w-5 h-5 text-white" />
@@ -246,7 +292,7 @@ export function UserManagementPage() {
                   <div>
                     <p className="text-sm text-[#333333] mb-1">활성 사용자</p>
                     <p className="text-2xl font-bold text-[#724323]">
-                      {users.filter(u => u.status === 'active').length}
+                      {users.filter((u) => u.status === "active").length}
                     </p>
                   </div>
                   <div className="p-3 bg-green-100 rounded-lg">
@@ -262,7 +308,7 @@ export function UserManagementPage() {
                   <div>
                     <p className="text-sm text-[#333333] mb-1">1공장 사용자</p>
                     <p className="text-2xl font-bold text-[#724323]">
-                      {users.filter(u => u.plant === 'P1').length}
+                      {users.filter((u) => u.plant === "P1").length}
                     </p>
                   </div>
                   <div className="p-3 bg-[#A3C478] rounded-lg">
@@ -278,7 +324,7 @@ export function UserManagementPage() {
                   <div>
                     <p className="text-sm text-[#333333] mb-1">2공장 사용자</p>
                     <p className="text-2xl font-bold text-[#724323]">
-                      {users.filter(u => u.plant === 'P2').length}
+                      {users.filter((u) => u.plant === "P2").length}
                     </p>
                   </div>
                   <div className="p-3 bg-[#F9B679] rounded-lg">
@@ -303,7 +349,12 @@ export function UserManagementPage() {
                   <Label>사용자명</Label>
                   <Input
                     value={newUser.username}
-                    onChange={(e) => setNewUser(prev => ({ ...prev, username: e.target.value }))}
+                    onChange={(e) =>
+                      setNewUser((prev) => ({
+                        ...prev,
+                        username: e.target.value,
+                      }))
+                    }
                     placeholder="사용자명"
                   />
                 </div>
@@ -312,21 +363,25 @@ export function UserManagementPage() {
                   <Input
                     type="email"
                     value={newUser.email}
-                    onChange={(e) => setNewUser(prev => ({ ...prev, email: e.target.value }))}
+                    onChange={(e) =>
+                      setNewUser((prev) => ({ ...prev, email: e.target.value }))
+                    }
                     placeholder="email@aniecong.com"
                   />
                 </div>
                 <div>
                   <Label>역할</Label>
-                  <Select 
+                  <Select
                     value={newUser.role}
-                    onValueChange={(value) => setNewUser(prev => ({ ...prev, role: value }))}
+                    onValueChange={(value: string) =>
+                      setNewUser((prev) => ({ ...prev, role: value }))
+                    }
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="역할 선택" />
                     </SelectTrigger>
                     <SelectContent>
-                      {roles.map(role => (
+                      {roles.map((role) => (
                         <SelectItem key={role.id} value={role.id}>
                           {role.name}
                         </SelectItem>
@@ -336,9 +391,11 @@ export function UserManagementPage() {
                 </div>
                 <div>
                   <Label>부서</Label>
-                  <Select 
+                  <Select
                     value={newUser.department}
-                    onValueChange={(value) => setNewUser(prev => ({ ...prev, department: value }))}
+                    onValueChange={(value: string) =>
+                      setNewUser((prev) => ({ ...prev, department: value }))
+                    }
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="부서 선택" />
@@ -354,9 +411,11 @@ export function UserManagementPage() {
                 </div>
                 <div>
                   <Label>담당 공장</Label>
-                  <Select 
+                  <Select
                     value={newUser.plant}
-                    onValueChange={(value) => setNewUser(prev => ({ ...prev, plant: value }))}
+                    onValueChange={(value: string) =>
+                      setNewUser((prev) => ({ ...prev, plant: value }))
+                    }
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="공장 선택" />
@@ -373,13 +432,18 @@ export function UserManagementPage() {
                   <Input
                     type="password"
                     value={newUser.password}
-                    onChange={(e) => setNewUser(prev => ({ ...prev, password: e.target.value }))}
+                    onChange={(e) =>
+                      setNewUser((prev) => ({
+                        ...prev,
+                        password: e.target.value,
+                      }))
+                    }
                     placeholder="비밀번호"
                   />
                 </div>
               </div>
               <div className="flex justify-end mt-4">
-                <Button 
+                <Button
                   onClick={createUser}
                   className="bg-[#724323] hover:bg-[#5a3419] text-white"
                 >
@@ -421,7 +485,8 @@ export function UserManagementPage() {
                       <TableCell>{user.email}</TableCell>
                       <TableCell>
                         <Badge className={roleColors[user.role]}>
-                          {roles.find(r => r.id === user.role)?.name || user.role}
+                          {roles.find((r) => r.id === user.role)?.name ||
+                            user.role}
                         </Badge>
                       </TableCell>
                       <TableCell>{user.department}</TableCell>
@@ -431,7 +496,9 @@ export function UserManagementPage() {
                           {statusLabels[user.status]}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-sm">{user.lastLogin}</TableCell>
+                      <TableCell className="text-sm">
+                        {user.lastLogin}
+                      </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-1">
                           <Button
@@ -440,7 +507,7 @@ export function UserManagementPage() {
                             onClick={() => toggleUserStatus(user.id)}
                             className="p-1 h-auto"
                           >
-                            {user.status === 'active' ? (
+                            {user.status === "active" ? (
                               <AlertTriangle className="w-4 h-4 text-orange-600" />
                             ) : (
                               <CheckCircle className="w-4 h-4 text-green-600" />
@@ -482,21 +549,34 @@ export function UserManagementPage() {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {roles.map((role) => (
-                  <div key={role.id} className="border border-[#F5E9D5] rounded-lg p-4">
+                  <div
+                    key={role.id}
+                    className="border border-[#F5E9D5] rounded-lg p-4"
+                  >
                     <div className="flex items-center justify-between mb-3">
-                      <h4 className="font-medium text-[#724323]">{role.name}</h4>
+                      <h4 className="font-medium text-[#724323]">
+                        {role.name}
+                      </h4>
                       <Badge className={roleColors[role.id]}>
                         {role.userCount}명
                       </Badge>
                     </div>
-                    <p className="text-sm text-[#333333] mb-3">{role.description}</p>
+                    <p className="text-sm text-[#333333] mb-3">
+                      {role.description}
+                    </p>
                     <div className="space-y-1">
                       <Label className="text-xs text-[#333333]">권한</Label>
                       <div className="flex flex-wrap gap-1">
-                        {role.permissions.map(permId => {
-                          const permission = permissions.find(p => p.id === permId);
+                        {role.permissions.map((permId) => {
+                          const permission = permissions.find(
+                            (p) => p.id === permId
+                          );
                           return (
-                            <Badge key={permId} variant="outline" className="text-xs">
+                            <Badge
+                              key={permId}
+                              variant="outline"
+                              className="text-xs"
+                            >
                               {permission?.name || permId}
                             </Badge>
                           );
@@ -530,34 +610,60 @@ export function UserManagementPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                {users.filter(u => u.role !== 'Admin').map((user) => (
-                  <div key={user.id} className="border border-[#F5E9D5] rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-4">
-                      <div>
-                        <h4 className="font-medium text-[#724323]">{user.username}</h4>
-                        <p className="text-sm text-[#333333]">{user.department} • {user.plant}</p>
-                      </div>
-                      <Badge className={roleColors[user.role]}>
-                        {roles.find(r => r.id === user.role)?.name}
-                      </Badge>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {permissions.filter(p => p.id !== 'all').map((permission) => (
-                        <div key={permission.id} className="flex items-center justify-between p-2 bg-[#FAF6F2] rounded">
-                          <div>
-                            <span className="text-sm font-medium text-[#724323]">{permission.name}</span>
-                            <div className="text-xs text-[#333333]">{permission.module}</div>
-                          </div>
-                          <Switch
-                            checked={user.permissions.includes(permission.id)}
-                            onCheckedChange={(checked) => updateUserPermissions(user.id, permission.id, checked)}
-                          />
+                {users
+                  .filter((u) => u.role !== "Admin")
+                  .map((user) => (
+                    <div
+                      key={user.id}
+                      className="border border-[#F5E9D5] rounded-lg p-4"
+                    >
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h4 className="font-medium text-[#724323]">
+                            {user.username}
+                          </h4>
+                          <p className="text-sm text-[#333333]">
+                            {user.department} • {user.plant}
+                          </p>
                         </div>
-                      ))}
+                        <Badge className={roleColors[user.role]}>
+                          {roles.find((r) => r.id === user.role)?.name}
+                        </Badge>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {permissions
+                          .filter((p) => p.id !== "all")
+                          .map((permission) => (
+                            <div
+                              key={permission.id}
+                              className="flex items-center justify-between p-2 bg-[#FAF6F2] rounded"
+                            >
+                              <div>
+                                <span className="text-sm font-medium text-[#724323]">
+                                  {permission.name}
+                                </span>
+                                <div className="text-xs text-[#333333]">
+                                  {permission.module}
+                                </div>
+                              </div>
+                              <Switch
+                                checked={user.permissions.includes(
+                                  permission.id
+                                )}
+                                onCheckedChange={(checked) =>
+                                  updateUserPermissions(
+                                    user.id,
+                                    permission.id,
+                                    checked
+                                  )
+                                }
+                              />
+                            </div>
+                          ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </CardContent>
           </Card>
@@ -591,7 +697,9 @@ export function UserManagementPage() {
                     <TableCell>사용자관리</TableCell>
                     <TableCell>192.168.1.100</TableCell>
                     <TableCell>
-                      <Badge className="bg-green-100 text-green-800">성공</Badge>
+                      <Badge className="bg-green-100 text-green-800">
+                        성공
+                      </Badge>
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -601,7 +709,9 @@ export function UserManagementPage() {
                     <TableCell>2공장 제조</TableCell>
                     <TableCell>192.168.2.150</TableCell>
                     <TableCell>
-                      <Badge className="bg-green-100 text-green-800">성공</Badge>
+                      <Badge className="bg-green-100 text-green-800">
+                        성공
+                      </Badge>
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -611,7 +721,9 @@ export function UserManagementPage() {
                     <TableCell>입고관리</TableCell>
                     <TableCell>192.168.1.120</TableCell>
                     <TableCell>
-                      <Badge className="bg-green-100 text-green-800">성공</Badge>
+                      <Badge className="bg-green-100 text-green-800">
+                        성공
+                      </Badge>
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -621,7 +733,9 @@ export function UserManagementPage() {
                     <TableCell>1공장 전처리</TableCell>
                     <TableCell>192.168.1.110</TableCell>
                     <TableCell>
-                      <Badge className="bg-green-100 text-green-800">성공</Badge>
+                      <Badge className="bg-green-100 text-green-800">
+                        성공
+                      </Badge>
                     </TableCell>
                   </TableRow>
                   <TableRow>

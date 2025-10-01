@@ -80,6 +80,8 @@ export function Plant2ManufacturingPage() {
       unit: "ea",
       status: "ready",
       stage: "waiting",
+      startTime: "",
+      estimatedCompletion: "",
       operator: "김혼합",
       recipe: "RCP002",
       bom: [
@@ -158,7 +160,7 @@ export function Plant2ManufacturingPage() {
     completed: "완료",
   };
 
-  const qualityStatusColors = {
+  const qualityStatusColors: { [key: string]: string } = {
     pass: "bg-green-100 text-green-800",
     warning: "bg-yellow-100 text-yellow-800",
     fail: "bg-red-100 text-red-800",

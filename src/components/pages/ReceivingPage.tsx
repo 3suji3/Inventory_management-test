@@ -1,93 +1,155 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
-import { Badge } from '../ui/badge';
-import { Truck, Package, Scan, Printer, CheckCircle, AlertTriangle, Calendar, MapPin } from 'lucide-react';
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
+import { Badge } from "../ui/badge";
+import {
+  Truck,
+  Package,
+  Scan,
+  Printer,
+  CheckCircle,
+  AlertTriangle,
+  Calendar,
+  MapPin,
+} from "lucide-react";
 
 export function ReceivingPage() {
   const [scanMode, setScanMode] = useState(false);
-  const [scannedBarcode, setScannedBarcode] = useState('');
-  
+  const [scannedBarcode, setScannedBarcode] = useState("");
+
   const [pendingReceipts, setPendingReceipts] = useState([
     {
-      id: 'PO001',
-      supplier: '프리미엄 육류',
+      id: "PO001",
+      supplier: "프리미엄 육류",
       items: [
-        { code: 'RAW001', name: '닭고기 (가슴살)', ordered: 100, received: 0, unit: 'kg' },
-        { code: 'RAW002', name: '소고기 (등심)', ordered: 50, received: 0, unit: 'kg' }
+        {
+          code: "RAW001",
+          name: "닭고기 (가슴살)",
+          ordered: 100,
+          received: 0,
+          unit: "kg",
+        },
+        {
+          code: "RAW002",
+          name: "소고기 (등심)",
+          ordered: 50,
+          received: 0,
+          unit: "kg",
+        },
       ],
-      expectedDate: '2025-09-11',
-      status: 'pending'
+      expectedDate: "2025-09-11",
+      status: "pending",
     },
     {
-      id: 'PO002',
-      supplier: '신선 농산',
+      id: "PO002",
+      supplier: "신선 농산",
       items: [
-        { code: 'RAW003', name: '당근', ordered: 200, received: 150, unit: 'kg' },
-        { code: 'RAW004', name: '감자', ordered: 100, received: 100, unit: 'kg' }
+        {
+          code: "RAW003",
+          name: "당근",
+          ordered: 200,
+          received: 150,
+          unit: "kg",
+        },
+        {
+          code: "RAW004",
+          name: "감자",
+          ordered: 100,
+          received: 100,
+          unit: "kg",
+        },
       ],
-      expectedDate: '2025-09-11',
-      status: 'partial'
-    }
+      expectedDate: "2025-09-11",
+      status: "partial",
+    },
   ]);
 
   const [completedReceipts, setCompletedReceipts] = useState([
     {
-      id: 'REC001',
-      poNumber: 'PO003',
-      supplier: '건조식품',
-      receivedDate: '2025-09-10',
+      id: "REC001",
+      poNumber: "PO003",
+      supplier: "건조식품",
+      receivedDate: "2025-09-10",
       items: [
-        { code: 'RAW005', name: '현미', quantity: 500, unit: 'kg', lot: 'LOT20250910001' }
+        {
+          code: "RAW005",
+          name: "현미",
+          quantity: 500,
+          unit: "kg",
+          lot: "LOT20250910001",
+        },
       ],
-      inspector: '김검수',
-      warehouse: 'P1-RM'
-    }
+      inspector: "김검수",
+      warehouse: "P1-RM",
+    },
   ]);
 
-  const statusColors = {
-    pending: 'bg-yellow-100 text-yellow-800',
-    partial: 'bg-orange-100 text-orange-800',
-    completed: 'bg-green-100 text-green-800'
+  const statusColors: { [key: string]: string } = {
+    pending: "bg-yellow-100 text-yellow-800",
+    partial: "bg-orange-100 text-orange-800",
+    completed: "bg-green-100 text-green-800",
   };
 
-  const statusLabels = {
-    pending: '입고대기',
-    partial: '부분입고',
-    completed: '입고완료'
+  const statusLabels: { [key: string]: string } = {
+    pending: "입고대기",
+    partial: "부분입고",
+    completed: "입고완료",
   };
 
   const startScanning = () => {
     setScanMode(true);
     // 시뮬레이션: 3초 후 바코드 스캔됨
     setTimeout(() => {
-      setScannedBarcode('PO001-RAW001-20250911');
+      setScannedBarcode("PO001-RAW001-20250911");
       setScanMode(false);
     }, 3000);
   };
 
-  const processReceiving = (poId: string, itemCode: string, quantity: number) => {
-    setPendingReceipts(prev => 
-      prev.map(po => {
+  const processReceiving = (
+    poId: string,
+    itemCode: string,
+    quantity: number
+  ) => {
+    setPendingReceipts((prev) =>
+      prev.map((po) => {
         if (po.id === poId) {
-          const updatedItems = po.items.map(item => {
+          const updatedItems = po.items.map((item) => {
             if (item.code === itemCode) {
               return { ...item, received: quantity };
             }
             return item;
           });
-          
-          const allReceived = updatedItems.every(item => item.received >= item.ordered);
-          const anyReceived = updatedItems.some(item => item.received > 0);
-          
+
+          const allReceived = updatedItems.every(
+            (item) => item.received >= item.ordered
+          );
+          const anyReceived = updatedItems.some((item) => item.received > 0);
+
           return {
             ...po,
             items: updatedItems,
-            status: allReceived ? 'completed' : anyReceived ? 'partial' : 'pending'
+            status: allReceived
+              ? "completed"
+              : anyReceived
+              ? "partial"
+              : "pending",
           };
         }
         return po;
@@ -97,7 +159,9 @@ export function ReceivingPage() {
 
   const printLabel = (item: any) => {
     // 라벨 프린트 시뮬레이션
-    alert(`라벨 프린트 요청:\n품목: ${item.name}\n수량: ${item.received}${item.unit}\n창고: P1-RM\n제조일: 2025-09-11\n유통기한: 2025-09-18`);
+    alert(
+      `라벨 프린트 요청:\n품목: ${item.name}\n수량: ${item.received}${item.unit}\n창고: P1-RM\n제조일: 2025-09-11\n유통기한: 2025-09-18`
+    );
   };
 
   return (
@@ -108,16 +172,18 @@ export function ReceivingPage() {
             <Truck className="w-6 h-6" />
             입고/검수 관리
           </h1>
-          <p className="text-[#333333] mt-1">구매 입고 스캔 및 원재료 라벨 프린트</p>
+          <p className="text-[#333333] mt-1">
+            구매 입고 스캔 및 원재료 라벨 프린트
+          </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button 
+          <Button
             onClick={startScanning}
             className="bg-[#724323] hover:bg-[#5a3419] text-white"
             disabled={scanMode}
           >
             <Scan className="w-4 h-4 mr-2" />
-            {scanMode ? '스캔 중...' : '바코드 스캔'}
+            {scanMode ? "스캔 중..." : "바코드 스캔"}
           </Button>
         </div>
       </div>
@@ -130,8 +196,12 @@ export function ReceivingPage() {
               <div className="w-16 h-16 bg-[#A3C478] rounded-full flex items-center justify-center mx-auto mb-4">
                 <Scan className="w-8 h-8 text-white animate-pulse" />
               </div>
-              <h3 className="text-lg font-medium text-[#724323] mb-2">바코드 스캔 중...</h3>
-              <p className="text-[#333333]">입고 품목의 바코드를 스캔해주세요</p>
+              <h3 className="text-lg font-medium text-[#724323] mb-2">
+                바코드 스캔 중...
+              </h3>
+              <p className="text-[#333333]">
+                입고 품목의 바코드를 스캔해주세요
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -145,12 +215,14 @@ export function ReceivingPage() {
               <CheckCircle className="w-6 h-6 text-green-600" />
               <div>
                 <h4 className="font-medium text-green-800">스캔 완료</h4>
-                <p className="text-sm text-green-600">바코드: {scannedBarcode}</p>
+                <p className="text-sm text-green-600">
+                  바코드: {scannedBarcode}
+                </p>
               </div>
-              <Button 
-                size="sm" 
+              <Button
+                size="sm"
                 className="ml-auto bg-green-600 hover:bg-green-700 text-white"
-                onClick={() => setScannedBarcode('')}
+                onClick={() => setScannedBarcode("")}
               >
                 처리 완료
               </Button>
@@ -170,7 +242,10 @@ export function ReceivingPage() {
         <CardContent>
           <div className="space-y-6">
             {pendingReceipts.map((po) => (
-              <div key={po.id} className="border border-[#F5E9D5] rounded-lg p-4">
+              <div
+                key={po.id}
+                className="border border-[#F5E9D5] rounded-lg p-4"
+              >
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-4">
                     <div>
@@ -201,9 +276,13 @@ export function ReceivingPage() {
                   <TableBody>
                     {po.items.map((item) => (
                       <TableRow key={item.code}>
-                        <TableCell className="font-medium">{item.code}</TableCell>
+                        <TableCell className="font-medium">
+                          {item.code}
+                        </TableCell>
                         <TableCell>{item.name}</TableCell>
-                        <TableCell>{item.ordered} {item.unit}</TableCell>
+                        <TableCell>
+                          {item.ordered} {item.unit}
+                        </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
                             <Input
@@ -212,17 +291,21 @@ export function ReceivingPage() {
                               className="w-20"
                               max={item.ordered}
                             />
-                            <span className="text-sm text-[#333333]">{item.unit}</span>
+                            <span className="text-sm text-[#333333]">
+                              {item.unit}
+                            </span>
                           </div>
                         </TableCell>
                         <TableCell>
                           <Button
                             size="sm"
-                            onClick={() => processReceiving(po.id, item.code, item.ordered)}
+                            onClick={() =>
+                              processReceiving(po.id, item.code, item.ordered)
+                            }
                             className="bg-[#A3C478] hover:bg-[#8fb865] text-white"
                             disabled={item.received >= item.ordered}
                           >
-                            {item.received >= item.ordered ? '완료' : '입고'}
+                            {item.received >= item.ordered ? "완료" : "입고"}
                           </Button>
                         </TableCell>
                         <TableCell>
@@ -273,7 +356,11 @@ export function ReceivingPage() {
               </div>
               <div>
                 <Label htmlFor="temperature">온도 (°C)</Label>
-                <Input id="temperature" type="number" placeholder="측정온도 입력" />
+                <Input
+                  id="temperature"
+                  type="number"
+                  placeholder="측정온도 입력"
+                />
               </div>
               <div>
                 <Label htmlFor="expiry">유통기한</Label>
@@ -304,7 +391,10 @@ export function ReceivingPage() {
             </div>
           </div>
           <div className="flex justify-end gap-2 mt-6">
-            <Button variant="outline" className="border-red-500 text-red-500 hover:bg-red-50">
+            <Button
+              variant="outline"
+              className="border-red-500 text-red-500 hover:bg-red-50"
+            >
               <AlertTriangle className="w-4 h-4 mr-2" />
               불합격
             </Button>
@@ -347,7 +437,8 @@ export function ReceivingPage() {
                   <TableCell>
                     {receipt.items.map((item, index) => (
                       <div key={index} className="text-sm">
-                        {item.name} ({item.quantity}{item.unit})
+                        {item.name} ({item.quantity}
+                        {item.unit})
                       </div>
                     ))}
                   </TableCell>
